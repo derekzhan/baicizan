@@ -43,3 +43,5 @@ bin/
 
 .run/
 .idea/
+/.idea
+/.run
