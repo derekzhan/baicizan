@@ -42,7 +42,9 @@ bin/
 .DS_Store
 
 .run/
-.idea/
+.idea/*
 /.idea
-/.run
+/.run/*
 /.idea/*
+/.idea/
+/.idea/sonarlint/
