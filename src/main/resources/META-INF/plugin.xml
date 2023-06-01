@@ -1,0 +1,41 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.derek.baicizan</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Baicizan</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="derek@qq.com" url="https://www.yourcompany.com">Derek</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    This plugin is used to memorize words through the interface of Hundred Word Chop.
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.java-capable</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <!--<statusBarWidgetFactory implementation="com.derek.baicizan.BaicizanStatusWidgetFactory" order="first"/>-->
+        <postStartupActivity implementation="com.derek.baicizan.BaiciZhanStartupActivity">
+
+        </postStartupActivity>
+    </extensions>
+    <actions>
+        <action id="com.derek.baicizan.BaicizhanAction" class="com.derek.baicizan.BaicizhanAction" text="Baicizhan"
+                description="baicizhan">
+            <add-to-group group-id="HelpMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="meta alt B"/>
+        </action>
+    </actions>
+</idea-plugin>
