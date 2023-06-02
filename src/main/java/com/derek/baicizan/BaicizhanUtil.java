@@ -8,10 +8,7 @@ import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
 import org.jsoup.internal.StringUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * @author derek zhan
@@ -24,33 +21,66 @@ public class BaicizhanUtil {
      */
     public static int index = 0;
 
-    public static void getContentAndSengNotify(Project project) {
-        InputStream is = BaicizhanUtil.class.getClassLoader().getResourceAsStream("list.json");
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+    public static final String key = "wordIndex";
+
+    public static WordList wordList = null;
+
+    public static void readIndex() throws IOException {
+        String wordIndex = PersistenceUtil.getValue(key);
+        if (!StringUtil.isBlank(wordIndex)) {
+            index = Integer.parseInt(wordIndex);
+        }
+        String response = getResourceFile("list.json");
+        if (!StringUtil.isBlank(response)) {
+            Gson gson = new Gson();
+            wordList = gson.fromJson(response, WordList.class);
+            // 超过了重置下
+            if(wordList.getList().size() > index){
+                index = 0;
+            }
+        }
+    }
+
+    public static void saveIndex() throws IOException {
+        PersistenceUtil.saveValue(key, index + "");
+    }
+
+
+    private static String getResourceFile(String indexFile) throws IOException {
+        InputStream resourceAsStream = BaicizhanUtil.class.getClassLoader().getResourceAsStream(indexFile);
+        BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
         String response = null;
         try {
             response = br.readLine();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                br.close();
+            }
+            if (resourceAsStream != null) {
+                resourceAsStream.close();
+            }
         }
+        return response;
+    }
 
-        if (!StringUtil.isBlank(response)) {
-            Gson gson = new Gson();
-            WordList wordList = gson.fromJson(response, WordList.class);
-            if (wordList != null) {
-                String item = wordList.getList().get(index);
-                String word = HttpClient.doGet("https://cdn.jsdelivr.net/gh/lyc8503/baicizhan-word-meaning-API/data/words/" + item + ".json");
-                if (!StringUtil.isBlank(word)) {
-                    System.out.println(word);
-                    WordItem wordItem = gson.fromJson(word, WordItem.class);
-                    final Notification notification = new Notification("ProjectOpenNotification", "",
-                            wordItem.toString(), NotificationType.INFORMATION);
-                    notification.notify(project);
-                    //notification.expire();
-                    index++;
-                }
+    public static void getContentAndSengNotify(Project project) throws IOException {
+        if (wordList != null) {
+            String item = wordList.getList().get(index);
+            String word = HttpClient.doGet("https://cdn.jsdelivr.net/gh/lyc8503/baicizhan-word-meaning-API/data/words/" + item + ".json");
+            if (!StringUtil.isBlank(word)) {
+                //System.out.println(word);
+                Gson gson = new Gson();
+                WordItem wordItem = gson.fromJson(word, WordItem.class);
+                final Notification notification = new Notification("ProjectOpenNotification", "",
+                        wordItem.toString(), NotificationType.INFORMATION);
+                notification.notify(project);
+                //notification.expire();
+                index++;
             }
         }
     }
+
 }
 

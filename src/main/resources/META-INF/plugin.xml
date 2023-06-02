@@ -38,4 +38,9 @@
             <keyboard-shortcut keymap="$default" first-keystroke="meta alt B"/>
         </action>
     </actions>
+
+    <projectListeners>
+        <listener class="com.derek.baicizan.ProjectStatusListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </projectListeners>
 </idea-plugin>
