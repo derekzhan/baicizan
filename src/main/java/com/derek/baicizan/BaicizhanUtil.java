@@ -25,7 +25,7 @@ public class BaicizhanUtil {
     public static int index = 0;
 
     public static void getContentAndSengNotify(Project project) {
-        InputStream is = BaicizanWidget.class.getClassLoader().getResourceAsStream("list.json");
+        InputStream is = BaicizhanUtil.class.getClassLoader().getResourceAsStream("list.json");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String response = null;
         try {
@@ -46,7 +46,7 @@ public class BaicizhanUtil {
                     final Notification notification = new Notification("ProjectOpenNotification", "",
                             wordItem.toString(), NotificationType.INFORMATION);
                     notification.notify(project);
-                    notification.expire();
+                    //notification.expire();
                     index++;
                 }
             }
