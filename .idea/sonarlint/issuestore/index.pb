@@ -11,3 +11,7 @@ C
 settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
 d
 4src/main/java/com/derek/baicizan/model/WordList.java,4/7/47165c32ac87f8cac5290a2173dc1e895124011f
+_
+/src/main/java/com/derek/baicizan/FileUtils.java,e/d/edb42343840d8be8a3f5a889857c9ef82ff653df
+`
+0src/main/java/com/derek/baicizan/HttpClient.java,9/4/943e13cfa862663db27b2e41f664bc806bda6de2

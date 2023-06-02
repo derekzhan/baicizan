@@ -11,3 +11,7 @@ A
 gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
 d
 4src/main/java/com/derek/baicizan/model/WordList.java,4/7/47165c32ac87f8cac5290a2173dc1e895124011f
+_
+/src/main/java/com/derek/baicizan/FileUtils.java,e/d/edb42343840d8be8a3f5a889857c9ef82ff653df
+`
+0src/main/java/com/derek/baicizan/HttpClient.java,9/4/943e13cfa862663db27b2e41f664bc806bda6de2

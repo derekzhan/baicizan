@@ -9,6 +9,12 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/*.xml
+.idea/sonarlint/**
+.idea/sonarlint/issuestore/index.pb
+.idea/sonarlint/securityhotspotstore/index.pb
+.idea/inspectionProfiles/*.xml
+
 *.iws
 *.iml
 *.ipr
@@ -41,10 +47,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-.run/
-.idea/*
-/.idea
-/.run/*
-/.idea/*
-/.idea/
-/.idea/sonarlint/
+
