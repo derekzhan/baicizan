@@ -16,10 +16,13 @@ public class WordItem {
     // 音标
     private String accent;
     // 中文意思
+    @SerializedName("mean_cn")
     private String meanCn;
     // 英文解释(可能为空字符串, 但绝大多数单词有英文解释.)
+    @SerializedName("mean_en")
     private String meanEn;
     // 英文例句(可能为空字符串, 但大部分单词有例句.)
+    @SerializedName("sentence")
     private String sentence;
     // 英文例句翻译
     @SerializedName("sentence_trans")
