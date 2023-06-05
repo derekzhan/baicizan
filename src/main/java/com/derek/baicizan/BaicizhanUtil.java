@@ -3,6 +3,7 @@ package com.derek.baicizan;
 import com.derek.baicizan.model.WordItem;
 import com.derek.baicizan.model.WordList;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
@@ -35,7 +36,7 @@ public class BaicizhanUtil {
             Gson gson = new Gson();
             wordList = gson.fromJson(response, WordList.class);
             // 超过了重置下
-            if(wordList.getList().size() > index){
+            if (wordList.getList().size() > index) {
                 index = 0;
             }
         }
@@ -46,14 +47,17 @@ public class BaicizhanUtil {
     }
 
 
-    private static String getResourceFile(String indexFile) throws IOException {
-        InputStream resourceAsStream = BaicizhanUtil.class.getClassLoader().getResourceAsStream(indexFile);
-        BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
+    private static String getResourceFile(String fileName) throws IOException {
         String response = null;
+        InputStream resourceAsStream = null;
+        BufferedReader br = null;
+
         try {
+            resourceAsStream = BaicizhanUtil.class.getClassLoader().getResourceAsStream(fileName);
+            br = new BufferedReader(new InputStreamReader(resourceAsStream));
             response = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         } finally {
             if (br != null) {
                 br.close();
@@ -68,15 +72,20 @@ public class BaicizhanUtil {
     public static void getContentAndSengNotify(Project project) throws IOException {
         if (wordList != null) {
             String item = wordList.getList().get(index);
-            String word = HttpClient.doGet("https://cdn.jsdelivr.net/gh/lyc8503/baicizhan-word-meaning-API/data/words/" + item + ".json");
+            String fileName = "words/" + item.replace(" ", "_") + ".json";
+            System.out.println(fileName);
+            String word = getResourceFile(fileName);
             if (!StringUtil.isBlank(word)) {
-                //System.out.println(word);
                 Gson gson = new Gson();
-                WordItem wordItem = gson.fromJson(word, WordItem.class);
-                final Notification notification = new Notification("ProjectOpenNotification", "",
-                        wordItem.toString(), NotificationType.INFORMATION);
-                notification.notify(project);
-                //notification.expire();
+                try {
+                    WordItem wordItem = gson.fromJson(word, WordItem.class);
+                    final Notification notification = new Notification("ProjectOpenNotification", "",
+                            wordItem.toString(), NotificationType.INFORMATION);
+                    notification.notify(project);
+                    //notification.expire();
+                } catch (JsonSyntaxException jse) {
+                    System.out.println(fileName + ", " + jse.getMessage());
+                }
                 index++;
             }
         }

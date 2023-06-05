@@ -37,7 +37,7 @@ public class WordItem {
 
     @Override
     public String toString() {
-        return String.format("%s,音标:[%s],中文:%s,例句:%s,翻译:%s", word, accent, meanCn, sentence, sentenceTrans);
+        return String.format("%s,[%s],%s,%s,%s", word, accent, meanCn, sentence, sentenceTrans);
     }
 
 
